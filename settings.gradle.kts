@@ -1,2 +1,2 @@
 rootProject.name = "plum"
-include("api")
+include(":api")

@@ -2,8 +2,8 @@ package io.github.teamcheeze.plum.api.auth
 
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
-import io.github.teamcheeze.plum.api.modules.playerManager.PlayerManager
-import io.github.dolphin2410.jaw.reflection.FieldAccessor
+import org.bukkit.Bukkit
+import org.bukkit.event.block.BlockBreakEvent
 import java.util.*
 
 /**
@@ -93,11 +93,12 @@ data class GameProfileWrapper(
          * A private class that loads texture data from mojang's api server to the instance.
          * @return The current instance that this method is called from.
          */
+        @Deprecated("Currently deprecated for maintenance", ReplaceWith("Currently unavailable", "io.github.teamcheeze.plum.api.auth.GameProfileWrapper.TextureProfile"))
         private fun loadFromName(name: String): TextureProfile {
-            PlayerManager.getTexture(name) {
-                FieldAccessor(this, "value").set(it.first)
-                FieldAccessor(this, "signature").set(it.second)
-            }
+//            PlayerManager.getTexture(name) {
+//                FieldAccessor(this, "value").set(it.first)
+//                FieldAccessor(this, "signature").set(it.second)
+//            }
             return this
         }
     }

@@ -12,7 +12,7 @@ class MinecraftReflection {
     /**
      * When an illegal field of an NMS module is accessed
      */
-    class NoNMSValueFoundException(msg: String): Exception(msg)
+    class NoNMSValueFoundException(msg: String): RuntimeException(msg)
     companion object {
         /**
          * Gets the NMS entity of a bukkit entity

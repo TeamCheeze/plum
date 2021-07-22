@@ -1,3 +1,13 @@
+## 0.0.4
+***Command Update!***
+Almost the same as Brigadier by Mojang, but more human-readable. 
+### Added
+- Added better commands feature.
+- Added documentation for some packages
+### Modified
+- All classes in the core/utils package have moved to the utils package
+- The Module class has moved from modules/core/Module.kt to utils/Module.kt
+- The Version.kt class has been deprecated
 ## 0.0.3
 ***I finally released it on GitHub***
 ### Added
@@ -19,7 +29,7 @@
 ### In maintenance [Not recommended to use now]
 - The clientity and some classes might not have been removed from the project completely. I'll do my best to remove all of them.
 ### Pre-Release
-- The module that contains the clientity feature will be found in my github repository soon
+- The module that contains the clientity feature will be found in my GitHub repository soon
 
 ## 0.0.1
 ### Notes

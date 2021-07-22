@@ -1,4 +1,4 @@
-package io.github.teamcheeze.plum.api.core.util
+package io.github.teamcheeze.plum.api.util
 
 /**
  * The identifier class. Used to determine either a instance's identifier matches the other

@@ -1,4 +1,4 @@
-package io.github.teamcheeze.plum.api.modules.core
+package io.github.teamcheeze.plum.api.util
 
 import io.github.teamcheeze.plum.api.config.LibConfig
 import io.github.dolphin2410.jaw.reflection.ConstructorAccessor
