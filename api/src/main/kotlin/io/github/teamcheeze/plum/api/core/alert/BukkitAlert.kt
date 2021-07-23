@@ -1,7 +1,7 @@
 package io.github.teamcheeze.plum.api.core.alert
 
-import io.github.teamcheeze.plum.api.core.debug.BukkitDebug
 import io.github.dolphin2410.jaw.util.async.Async
+import io.github.teamcheeze.plum.api.core.debug.BukkitDebug
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 

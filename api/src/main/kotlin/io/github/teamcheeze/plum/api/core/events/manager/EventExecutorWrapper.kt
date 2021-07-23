@@ -18,7 +18,7 @@ class EventExecutorWrapper<T: Event>(private val action: (T)->Unit): EventExecut
     }
 
     /**
-     * The execution method that will be called by the overriden [RegisteredListenerWrapper]
+     * The execution method that will be called by the overridden [RegisteredListenerWrapper]
      * @param listener The empty listener that the [RegisteredListenerWrapper] will use
      * @param event The event that will be listened to
      */

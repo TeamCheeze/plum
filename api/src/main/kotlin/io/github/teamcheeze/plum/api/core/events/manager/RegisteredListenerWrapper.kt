@@ -1,7 +1,7 @@
 package io.github.teamcheeze.plum.api.core.events.manager
 
-import io.github.teamcheeze.plum.api.PluginLoader
 import io.github.dolphin2410.jaw.reflection.FieldAccessor
+import io.github.teamcheeze.plum.api.PluginLoader
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -14,7 +14,7 @@ import org.bukkit.plugin.RegisteredListener
  * @param action The action that will be fired with the event
  */
 class RegisteredListenerWrapper<T: Event>(action: T.()->Unit): RegisteredListener(object: Listener{},
-    EventExecutorWrapper(action), EventPriority.NORMAL, io.github.teamcheeze.plum.api.PluginLoader.plugin, false) {
+    EventExecutorWrapper(action), EventPriority.NORMAL, PluginLoader.plugin, false) {
     /**
      * A class that will be called when trying to execute from an non wrapped EventExecutor
      */
@@ -36,7 +36,7 @@ class RegisteredListenerWrapper<T: Event>(action: T.()->Unit): RegisteredListene
         /**
          * This should have been called from Registered listener. My bad.
          */
-        val executor = FieldAccessor(this, "executor").get() as EventExecutor
+        val executor = FieldAccessor(this, "executor").setDeclaringClass(RegisteredListener::class.java).get() as EventExecutor
         try {
             @Suppress("unchecked_cast")
             val executorWrapper = executor as EventExecutorWrapper<T>

@@ -1,3 +1,14 @@
+## 0.0.5
+***Patches and Updates!***
+### Added
+#### Dev-1
+- Added the command sender in command
+#### Dev-2
+- Added auto tab completion
+#### Dev-3
+- Recovered the CommandRegistry class
+#### Final
+- Cleaned the utilities package
 ## 0.0.4
 ***Command Update!***
 Almost the same as Brigadier by Mojang, but more human-readable. 

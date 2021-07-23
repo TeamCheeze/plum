@@ -1,6 +1,6 @@
 package io.github.dolphin2410
 
-import io.github.teamcheeze.plum.api.util.Group
+import io.github.teamcheeze.plum.api.util.core.Group
 
 class GroupTest {
     companion object {

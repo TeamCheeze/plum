@@ -1,6 +1,5 @@
 package io.github.teamcheeze.plum.api.core.bukkit
 
-import io.github.teamcheeze.plum.api.PluginLoader
 import org.bukkit.scheduler.BukkitRunnable
 
 /**

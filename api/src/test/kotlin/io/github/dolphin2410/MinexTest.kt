@@ -1,6 +1,6 @@
 package io.github.dolphin2410
 
-import io.github.teamcheeze.plum.api.config.internal.Minex
+import io.github.teamcheeze.plum.api.util.minex.Minex
 
 class MinexTest {
     companion object {

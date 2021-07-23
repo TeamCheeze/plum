@@ -2,7 +2,6 @@ package io.github.teamcheeze.plum.api.core.nms
 
 import io.github.dolphin2410.jaw.reflection.MethodAccessor
 import org.bukkit.entity.Entity
-import kotlin.jvm.Throws
 
 /**
  * Some core reflection features

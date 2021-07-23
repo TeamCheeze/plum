@@ -1,10 +1,8 @@
 package io.github.teamcheeze.plum.api.config
 
-import io.github.teamcheeze.plum.api.config.internal.NmsVersionType
-import io.github.teamcheeze.plum.api.config.internal.Property
-import io.github.teamcheeze.plum.api.util.Version
+import io.github.teamcheeze.plum.api.util.core.Property
+import io.github.teamcheeze.plum.api.util.minecraft.NmsVersionType
 import org.bukkit.Bukkit
-import java.lang.RuntimeException
 
 class LibConfig {
     companion object {

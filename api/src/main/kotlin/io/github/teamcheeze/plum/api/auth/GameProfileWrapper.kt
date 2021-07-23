@@ -2,8 +2,6 @@ package io.github.teamcheeze.plum.api.auth
 
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
-import org.bukkit.Bukkit
-import org.bukkit.event.block.BlockBreakEvent
 import java.util.*
 
 /**
