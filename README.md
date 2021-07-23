@@ -24,9 +24,9 @@ EventRegistry.register<BlockBreakEvent> { e ->
 }
 ```
 
-### PCommand
+### CommandRegistry
 ```kotlin
-PCommand.register("plum") {
+CommandRegistry.register("plum") {
     option("heal") {
         input { playerName ->
             Bukkit.getPlayer(playerName)?.let {
