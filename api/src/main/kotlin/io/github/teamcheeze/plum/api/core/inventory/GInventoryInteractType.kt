@@ -1,4 +1,9 @@
 package io.github.teamcheeze.plum.api.core.inventory
 
-class GInventoryInteractType {
+enum class GInventoryInteractType {
+    CLICK,
+    CLOSE,
+    OPEN,
+    PUT,
+    SELECT
 }

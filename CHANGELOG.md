@@ -1,8 +1,18 @@
+## 0.0.6
+***Inventory Updates***
+### Added
+#### Dev-1
+- Upgraded the slots feature of GInventory
+- Added the onOpen and onClose functions, and upgraded the event handling features
+- Added GInventoryInteractEvent
+### Modified
+Dev-1
+- Updated the dependencies to the latest
 ## 0.0.5
 ***Patches and Updates!***
 ### Added
 #### Dev-1
-- Added the command sender in command
+- Added the command sender in CommandRegistry
 #### Dev-2
 - Added auto tab completion
 #### Dev-3

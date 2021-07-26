@@ -1,10 +1,15 @@
 package io.github.teamcheeze.plum.api.core.inventory
 
+import io.github.teamcheeze.plum.api.core.bukkit.GBukkit
+import io.github.teamcheeze.plum.api.core.events.GInventoryInteractEvent
 import io.github.teamcheeze.plum.api.core.events.manager.EventRegistry
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import kotlin.math.floor
 
 /**
  * An inventory with extra features
@@ -36,6 +41,14 @@ class GInventory private constructor(val inventory: Inventory) {
      * Information about the slot
      */
     data class Slot(val inventory: Inventory, val row: Row, val column: Column) {
+        companion object {
+            fun fromIndex(inventory: Inventory, bukkitIndex: Int): Slot {
+                val column = floor(bukkitIndex / 9.0)
+                val row = bukkitIndex % 9
+                return Slot(inventory, Row(inventory, row), Column(inventory, column.toInt()))
+            }
+        }
+
         /**
          * Information about the column
          */
@@ -103,7 +116,7 @@ class GInventory private constructor(val inventory: Inventory) {
      * @return The row
      */
     fun row(rowIndex: Int): Slot.Row {
-        if(rowIndex !in 0..5) {
+        if (rowIndex !in 0..5) {
             throw Exception("This is an index starting from 0. It also should not be greater than 5")
         }
         return if (rowIndex * 9 <= inventory.size) {
@@ -119,10 +132,48 @@ class GInventory private constructor(val inventory: Inventory) {
      * @return The column
      */
     fun column(columnIndex: Int): Slot.Column {
-        if(columnIndex !in 0..8) {
+        if (columnIndex !in 0..8) {
             throw Exception("This is an index starting from 0. It also should not be greater than 8")
         }
         return Slot.Column(inventory, columnIndex)
+    }
+
+    val onClick = ArrayList<(InventoryClickEvent)->Unit>()
+    val onOpen = ArrayList<(InventoryOpenEvent)->Unit>()
+    val onClose = ArrayList<(InventoryCloseEvent)->Unit>()
+
+    init {
+        EventRegistry.register<InventoryClickEvent> { e ->
+            val type = if (e.cursor != null) {
+                GInventoryInteractType.SELECT
+            } else if (e.currentItem != null) {
+                GInventoryInteractType.PUT
+            } else {
+                GInventoryInteractType.CLICK
+            }
+            GBukkit.pluginManager.callEvent(GInventoryInteractEvent(type, this, null))
+            if (e.inventory == inventory) {
+                onClick.forEach {
+                    it.invoke(e)
+                }
+            }
+        }
+        EventRegistry.register<InventoryOpenEvent> { e ->
+            GBukkit.pluginManager.callEvent(GInventoryInteractEvent(GInventoryInteractType.OPEN, this, null))
+            if (e.inventory == inventory) {
+                onOpen.forEach {
+                    it.invoke(e)
+                }
+            }
+        }
+        EventRegistry.register<InventoryCloseEvent> { e ->
+            GBukkit.pluginManager.callEvent(GInventoryInteractEvent(GInventoryInteractType.CLOSE, this, null))
+            if (e.inventory == inventory) {
+                onClose.forEach {
+                    it.invoke(e)
+                }
+            }
+        }
     }
 
     /**
@@ -130,6 +181,12 @@ class GInventory private constructor(val inventory: Inventory) {
      * @param action Action to invoke when the event is triggered
      */
     fun onClick(action: (InventoryClickEvent) -> Unit) {
-        EventRegistry.register(action)
+        onClick.add(action)
+    }
+    fun onOpen(action: (InventoryOpenEvent)->Unit) {
+        onOpen.add(action)
+    }
+    fun onClose(action: (InventoryCloseEvent)->Unit) {
+        onClose.add(action)
     }
 }
