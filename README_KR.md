@@ -1,28 +1,64 @@
-# GemmyLib
-#### 마인크래프트 서버를 위한 스피갓 라이브러리
-<h3>다른 언어</h3>
-<a href="./README.md">영어</a>
-<br />
-<h3>소개</h3>
-GemmyLib는 오픈소스 스피갓 플러그인 개발 라이브러리입나다. 이는 다음과 같은 기능들을 갖고 있습니다.
+# Plum
+스피갓 서버를 위한 라이브러리
 
-- 여러 버전의 NMS의 쉬운 사용
-- 쉬운 모듈 추가
-- 코틀린에 최적화된 코드
-- 쉬운 게임 내 플레이어 알림 시스템
-- 기본 모듈
-    1. 블록 시스템
-    2. 클라이언트에서만 존재하는 가상 엔티티 관리
-    3. 가상 표지판을 사용한 입출력 시스템
-    4. 쉬운 플레이어 수정 시스템
-- 명령어를 쉽게 등록할 수 있는 커맨드 관리 시스템
-- 간단한 인벤토리 관리 시스템
-  <br /><br />
+### Other Languages
+[English](./README.md)
 
-<h3>프로젝트에 기여하기</h3>
-어떠한 기여도 환영합니다. 다만, 업로드 전에 코드를 테스트 해 주세요.
-<br /><br />
+### Introduction
+Plum은 오픈소스 스피갓 플러그인 개발 라이브러리입니다. 코드를 자유롭게 사용하셔도 좋습니다.
 
-<h3>개발 환경</h3>
-GemmyLib는 JDK 16 과 Kotlin 1.5.20 버전을 사용하며 Kolleague에 의존합니다.
-<br /><br />
+## 예시 코드
+### GameProfileWrapper
+```kotlin
+GameProfileWrapper(UUID.randomUUID(), "Name", "value" to "signature")
+```
+### EventRegistry
+```kotlin
+EventRegistry.register<BlockBreakEvent> { e ->
+    if (e.player.name == "Dream") {
+        e.isCancelled = true
+    }
+}
+```
+
+### CommandRegistry
+```kotlin
+CommandRegistry.register("plum") {
+    option("heal") {
+        input { playerName ->
+            executes {
+                Bukkit.getPlayer(playerName)?.let {
+                    it.health = 20.0
+                }
+            }
+        }
+    }
+    option("feed") {
+        input { playerName ->
+            executes {
+                Bukkit.getPlayer(playerName)?.let {
+                    it.foodLevel = 20
+                }
+            }
+        }
+    }
+}
+```
+
+### 공지
+
+```kotlin
+repositories {
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    mavenCentral()
+}
+dependencies {
+    compileOnly("io.github.teamcheeze:plum:0.0.5")
+    compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
+    implementation("io.github.dolphin2410:jaw:1.0.2")
+    implementation(kotlin("stdlib"))
+}
+```
+
+### 요구사항
+Plum은 JDK 16과 Kotlin 버전 1.5.21, 그리고 [jaw](https://github.com/TeamCheeze/jaw) 라이브러리가 런타임에 개별적으로 제공 되어야 합니다.
