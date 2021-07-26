@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.teamcheeze"
-version = "0.0.5"
+version = "0.0.6"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ subprojects {
     }
     dependencies {
         compileOnly(kotlin("stdlib"))
-        compileOnly("io.github.dolphin2410:jaw:1.0.0")
+        compileOnly("io.github.teamcheeze:jaw:1.0.2")
     }
     tasks {
         register<Jar>("javadocJar") {
@@ -56,7 +56,7 @@ fun isSnapshot(ver: String): Boolean {
 
 publishing {
     publications {
-        create<MavenPublication>("apiPub") {
+        create<MavenPublication>("publication") {
             artifactId = "plum"
             from(components["java"])
             artifact(tasks["javadocJar"])
@@ -81,7 +81,7 @@ publishing {
                 }
             }
             pom {
-                name.set("plum-api")
+                name.set("plum")
                 description.set("A spigot library")
                 url.set("https://github.com/TeamCheeze/plum")
                 licenses {
@@ -109,5 +109,5 @@ publishing {
 signing {
     isRequired = true
     sign(tasks["javadocJar"], tasks["sourcesJar"])
-    sign(publishing.publications["apiPub"])
+    sign(publishing.publications["publication"])
 }
