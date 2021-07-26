@@ -48,7 +48,7 @@ CommandRegistry.register("plum") {
 }
 ```
 
-### For people who loves open source
+### For people who love open source
 Help me by contributing on this project!
 
 ### Notice
