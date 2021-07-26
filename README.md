@@ -24,20 +24,24 @@ EventRegistry.register<BlockBreakEvent> { e ->
 }
 ```
 
-### PCommand
+### CommandRegistry
 ```kotlin
-PCommand.register("plum") {
+CommandRegistry.register("plum") {
     option("heal") {
         input { playerName ->
-            Bukkit.getPlayer(playerName)?.let {
-                it.health = 20.0
+            executes {
+                Bukkit.getPlayer(playerName)?.let {
+                    it.health = 20.0
+                }
             }
         }
     }
     option("feed") {
         input { playerName ->
-            Bukkit.getPlayer(playerName)?.let {
-                it.foodLevel = 20
+            executes {
+                Bukkit.getPlayer(playerName)?.let {
+                    it.foodLevel = 20
+                }
             }
         }
     }
@@ -55,9 +59,9 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compileOnly("io.github.teamcheeze:plum:0.0.4")
+    compileOnly("io.github.teamcheeze:plum:0.0.5")
     compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
-    implementation("io.github.dolphin2410:jaw:1.0.1")
+    implementation("io.github.dolphin2410:jaw:1.0.2")
     implementation(kotlin("stdlib"))
 }
 ```
