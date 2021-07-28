@@ -1,4 +1,4 @@
-package io.github.teamcheeze.plum.api.core.events.manager
+package io.github.teamcheeze.plum.api.core.events
 
 import io.github.dolphin2410.jaw.reflection.FieldAccessor
 import io.github.teamcheeze.plum.api.PluginLoader
@@ -38,12 +38,16 @@ class RegisteredListenerWrapper<T: Event>(action: T.()->Unit): RegisteredListene
          */
         val executor = FieldAccessor(this, "executor").setDeclaringClass(RegisteredListener::class.java).get() as EventExecutor
         try {
-            @Suppress("unchecked_cast")
-            val executorWrapper = executor as EventExecutorWrapper<T>
-            executorWrapper.execute(event)
+            if (executor is EventExecutorWrapper<*>) {
+                @Suppress("unchecked_cast")
+                val executorWrapper = executor as EventExecutorWrapper<T>
+                executorWrapper.execute(event)
+            } else {
+                UnwrappedEventExecutorException("You tried to cast a regular event executor to the EventExecutorWrapper").printStackTrace()
+            }
         }
         catch (e: ClassCastException) {
-            throw UnwrappedEventExecutorException(e.toString())
+
         }
     }
 }

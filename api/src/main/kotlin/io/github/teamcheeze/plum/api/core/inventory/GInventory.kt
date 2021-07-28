@@ -1,8 +1,7 @@
 package io.github.teamcheeze.plum.api.core.inventory
 
 import io.github.teamcheeze.plum.api.core.bukkit.GBukkit
-import io.github.teamcheeze.plum.api.core.events.GInventoryInteractEvent
-import io.github.teamcheeze.plum.api.core.events.manager.EventRegistry
+import io.github.teamcheeze.plum.api.core.events.EventRegistry
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -144,14 +143,6 @@ class GInventory private constructor(val inventory: Inventory) {
 
     init {
         EventRegistry.register<InventoryClickEvent> { e ->
-            val type = if (e.cursor != null) {
-                GInventoryInteractType.SELECT
-            } else if (e.currentItem != null) {
-                GInventoryInteractType.PUT
-            } else {
-                GInventoryInteractType.CLICK
-            }
-            GBukkit.pluginManager.callEvent(GInventoryInteractEvent(type, this, null))
             if (e.inventory == inventory) {
                 onClick.forEach {
                     it.invoke(e)
@@ -159,7 +150,6 @@ class GInventory private constructor(val inventory: Inventory) {
             }
         }
         EventRegistry.register<InventoryOpenEvent> { e ->
-            GBukkit.pluginManager.callEvent(GInventoryInteractEvent(GInventoryInteractType.OPEN, this, null))
             if (e.inventory == inventory) {
                 onOpen.forEach {
                     it.invoke(e)
@@ -167,7 +157,6 @@ class GInventory private constructor(val inventory: Inventory) {
             }
         }
         EventRegistry.register<InventoryCloseEvent> { e ->
-            GBukkit.pluginManager.callEvent(GInventoryInteractEvent(GInventoryInteractType.CLOSE, this, null))
             if (e.inventory == inventory) {
                 onClose.forEach {
                     it.invoke(e)

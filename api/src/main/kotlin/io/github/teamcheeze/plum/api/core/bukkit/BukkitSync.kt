@@ -13,7 +13,7 @@ class BukkitSync {
          * @param action The action to be called
          */
         @JvmStatic
-        fun run(action: ()->Any){
+        fun run(action: ()->Unit){
             object: BukkitRunnable(){
                 override fun run() {
                     action.invoke()

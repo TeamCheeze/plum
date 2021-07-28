@@ -1,3 +1,8 @@
+## 0.0.7
+### BugPatch
+- UnwrappedEventExecutorException occurs on event type mismatch
+### Added
+- Attributes on GItem
 ## 0.0.6
 ***Inventory Updates***
 ### Added
@@ -6,8 +11,14 @@
 - Added the onOpen and onClose functions, and upgraded the event handling features
 - Added GInventoryInteractEvent
 ### Modified
-Dev-1
+#### Dev-1
 - Updated the dependencies to the latest
+#### Dev-2
+- Fix BukkitSync requiring 'Any' to be returned
+#### Dev-3
+- Fixed command not synced after loading during runtime
+#### Dev-4
+- Fixed ItemMeta not applying in GItem
 ## 0.0.5
 ***Patches and Updates!***
 ### Added

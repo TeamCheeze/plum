@@ -1,4 +1,4 @@
-package io.github.teamcheeze.plum.api.core.events.manager
+package io.github.teamcheeze.plum.api.core.events
 
 import org.bukkit.event.Event
 import org.bukkit.event.Listener

@@ -2,6 +2,7 @@ package io.github.teamcheeze.plum.api.core.command
 
 import io.github.dolphin2410.jaw.reflection.MethodAccessor
 import io.github.teamcheeze.plum.api.core.bukkit.GBukkit
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 
 class CommandRegistry {
@@ -13,6 +14,10 @@ class CommandRegistry {
             val accessor = MethodAccessor(MethodAccessor(GBukkit.server, "getCommandMap").invoke()!!, "register")
             accessor.setDeclaringClass(CommandMap::class.java)
             accessor.invoke(name, command)
+            MethodAccessor(GBukkit.server, "syncCommands").invoke()
+            Bukkit.getOnlinePlayers().forEach {
+                MethodAccessor(it, "updateCommands").invoke()
+            }
             return command
         }
     }
