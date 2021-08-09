@@ -1,4 +1,4 @@
-package io.github.teamcheeze.plum.api.core.inventory
+package io.github.teamcheeze.plum.api.core.enchants
 
 import org.bukkit.enchantments.Enchantment
 

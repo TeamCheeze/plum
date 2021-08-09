@@ -1,3 +1,16 @@
+## 0.0.9
+### Moved
+- GEnchant to the enchants package
+### Upgraded
+- GInventory tree
+### Modified
+- On GInventory click, it calls GInventoryClickEvent
+### Added
+- SlotRanges, ColumnRanges and RowRanges
+- Added components for simpler inventory usage
+## 0.0.8
+### BugPatch
+- Options for enums and lists
 ## 0.0.7
 ### BugPatch
 - UnwrappedEventExecutorException occurs on event type mismatch

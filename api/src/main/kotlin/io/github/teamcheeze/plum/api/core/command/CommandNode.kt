@@ -1,8 +1,10 @@
 package io.github.teamcheeze.plum.api.core.command
 
+import io.github.dolphin2410.jaw.util.core.EnumBoolean
 import io.github.teamcheeze.plum.api.util.core.Property
 import org.bukkit.command.CommandSender
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CommandNode(
     private val path: ArrayList<String>,
@@ -23,7 +25,9 @@ class CommandNode(
         if (args.isEmpty) {
             action.invoke(newBanana, "")
         } else {
-            action.invoke(newBanana, args.get()[index])
+            if (args.get().isNotEmpty()) {
+                action.invoke(newBanana, args.get()[index])
+            }
         }
         (command.registry.find { it.first == path } ?: Pair(
             path,
@@ -31,6 +35,73 @@ class CommandNode(
         ).also { command.registry.add(it) })
             .second.second.add("")
     }
+
+    fun <T: Enum<T>>options(clazz: Class<T>, action: CommandNode.(T) -> Unit) {
+        val actionAfterIteration = ArrayList<()->Unit>()
+        clazz.enumConstants.forEach {
+            actionAfterIteration.add {
+                option(it.name) {
+                    action.invoke(this, it)
+                }
+            }
+        }
+        actionAfterIteration.forEach {
+            it.invoke()
+        }
+    }
+
+
+    fun <T: Enum<T>>options(options: Collection<T>, action: CommandNode.(T)->Unit) {
+        val actionAfterIteration = ArrayList<()->Unit>()
+        options.forEach {
+            actionAfterIteration.add {
+                option(it.name) {
+                    action.invoke(this, it)
+                }
+            }
+        }
+        actionAfterIteration.forEach {
+            it.invoke()
+        }
+    }
+
+    fun <T: Enum<T>>options(options: Array<T>, action: CommandNode.(T)->Unit) {
+        val actionAfterIteration = ArrayList<()->Unit>()
+        options.forEach {
+            actionAfterIteration.add {
+                option(it.name) {
+                    action.invoke(this, it)
+                }
+            }
+        }
+        actionAfterIteration.forEach {
+            it.invoke()
+        }
+    }
+
+    @JvmName("stringOptions")
+    fun options(options: Collection<String>, action: CommandNode.(String) -> Unit) {
+        val actionAfterIteration = ArrayList<()->Unit>()
+        options.forEach {
+            actionAfterIteration.add {
+                option(it) {
+                    action.invoke(this, it)
+                }
+            }
+        }
+        actionAfterIteration.forEach {
+            it.invoke()
+        }
+    }
+
+    fun options(options: Array<out String>, action: CommandNode.(String) -> Unit) {
+        options(ArrayList(options.toList()), action)
+    }
+
+
+//    fun options(options: List<String>, action: CommandNode.(String) -> Unit) {
+//
+//    }
 
     val execution: Property<() -> Unit> = Property {}
     fun executes(action: () -> Unit) {
@@ -52,8 +123,10 @@ class CommandNode(
         if (args.isEmpty) {
             action.invoke(newBanana)
         } else {
-            if (args.get()[index] == name) {
-                action.invoke(newBanana)
+            if (args.get().isNotEmpty()) {
+                if (args.get()[index] == name) {
+                    action.invoke(newBanana)
+                }
             }
         }
         (command.registry.find { it.first == path } ?: Pair(

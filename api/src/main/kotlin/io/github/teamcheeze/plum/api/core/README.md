@@ -9,7 +9,7 @@
 - [Events](./events): Simple event management
 - [Inventory](./inventory): Simple inventory and item management
 - [Location](./location): Location wrapper
-- [NMS](./nms): When you need to use CraftBukkit code, but you are lazy to add a new separate module for it
+- [NMS](minecraft): When you need to use CraftBukkit code, but you are lazy to add a new separate module for it
 - [World](./world): For custom world
 
 Click on the directory for more information

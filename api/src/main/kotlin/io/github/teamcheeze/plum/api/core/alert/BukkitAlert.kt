@@ -2,15 +2,33 @@ package io.github.teamcheeze.plum.api.core.alert
 
 import io.github.dolphin2410.jaw.util.async.Async
 import io.github.teamcheeze.plum.api.core.debug.BukkitDebug
+import io.github.teamcheeze.plum.api.core.minecraft.SpigotUtil
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.entity.Player
 
 /**
  * Alerting system for bukkit. Calls asynchronously
  * @author dolphin2410
  */
 class BukkitAlert {
+    /**
+     * Bootstrap Color Code
+     */
+    enum class BCC(val bukkitCode: ChatColor) {
+        WARN(ChatColor.YELLOW),
+        DEBUG(ChatColor.BLUE),
+        DANGER(ChatColor.RED),
+        SUCCESS(ChatColor.GREEN),
+        INFO(ChatColor.LIGHT_PURPLE)
+    }
     companion object{
+
+        @JvmStatic
+        private fun text(code: BCC, msg: String): String {
+            return "${code.bukkitCode}$msg"
+        }
+
         /**
          * warn indicates the color Yellow
          * @param msg The message to be sent to all players on the server
@@ -18,7 +36,21 @@ class BukkitAlert {
         @JvmStatic
         fun warn(msg: String){
             Async.execute {
-                Bukkit.broadcastMessage("${ChatColor.YELLOW}$msg")
+                Bukkit.broadcastMessage(text(BCC.WARN, msg))
+            }
+        }
+
+        @JvmStatic
+        fun warnPlayer(player: Player, msg: String) {
+            Async.execute {
+                player.sendMessage(text(BCC.WARN, msg))
+            }
+        }
+
+        @JvmStatic
+        fun warnLog(msg: String) {
+            Async.execute {
+                SpigotUtil.console.sendMessage(text(BCC.WARN, msg))
             }
         }
 
@@ -29,7 +61,14 @@ class BukkitAlert {
         @JvmStatic
         fun debug(msg: String) {
             Async.execute {
-                Bukkit.broadcastMessage("${ChatColor.BLUE}$msg")
+                Bukkit.broadcastMessage(text(BCC.DEBUG))
+            }
+        }
+
+        @JvmStatic
+        fun debugPlayer(player: Player, msg: String) {
+            Async.execute {
+                player.sendMessage(text(BCC.DEBUG, msg))
             }
         }
 

@@ -1,5 +1,6 @@
 package io.github.teamcheeze.plum.api.core.inventory
 
+import io.github.teamcheeze.plum.api.core.enchants.GEnchant
 import io.github.teamcheeze.plum.api.util.core.Attributable
 import org.bukkit.Material
 import org.bukkit.inventory.ItemFlag

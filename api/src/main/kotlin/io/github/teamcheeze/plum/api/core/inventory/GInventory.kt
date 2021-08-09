@@ -2,147 +2,37 @@ package io.github.teamcheeze.plum.api.core.inventory
 
 import io.github.teamcheeze.plum.api.core.bukkit.GBukkit
 import io.github.teamcheeze.plum.api.core.events.EventRegistry
+import io.github.teamcheeze.plum.api.core.inventory.component.InventoryButton
+import io.github.teamcheeze.plum.api.core.inventory.component.InventoryInput
+import io.github.teamcheeze.plum.api.core.inventory.util.Column
+import io.github.teamcheeze.plum.api.core.inventory.util.GInventoryClickEvent
+import io.github.teamcheeze.plum.api.core.inventory.util.Row
+import io.github.teamcheeze.plum.api.core.inventory.util.Slot
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import kotlin.math.floor
 
 /**
  * An inventory with extra features
  * @author dolphin2410
  */
-class GInventory private constructor(val inventory: Inventory) {
-    /**
-     * This class is called when you exceeded the max limit of a field
-     */
-    class LimitExceedException(msg: String) : Exception(msg)
-    companion object {
-        /**
-         * Creating a new inventory
-         * @param name The title of the inventory
-         * @param rows The number of rows. Range from 1 to 6
-         * @return A created GInventory instance
-         */
-        @JvmStatic
-        fun create(name: String, rows: Int): GInventory {
-            if (rows !in 1..6) {
-                throw LimitExceedException("Row should be between 1 and 6")
-            }
-            val newInventory = Bukkit.createInventory(null, rows * 9, name)
-            return GInventory(newInventory)
-        }
-    }
-
-    /**
-     * Information about the slot
-     */
-    data class Slot(val inventory: Inventory, val row: Row, val column: Column) {
-        companion object {
-            fun fromIndex(inventory: Inventory, bukkitIndex: Int): Slot {
-                val column = floor(bukkitIndex / 9.0)
-                val row = bukkitIndex % 9
-                return Slot(inventory, Row(inventory, row), Column(inventory, column.toInt()))
-            }
-        }
-
-        /**
-         * Information about the column
-         */
-        data class Column(private val inventory: Inventory, val index: Int) {
-            /**
-             * Get the slot by also specifying the row
-             * @param rowIndex The index of the row
-             * @return The specified slot
-             */
-            fun row(rowIndex: Int): Slot {
-                return row(Row(inventory, rowIndex))
-            }
-
-            /**
-             * Get the slot with an existing row instance
-             * @param row The row
-             * @return The specified slot
-             */
-            fun row(row: Row): Slot {
-                return Slot(inventory, row, this)
-            }
-        }
-
-        /**
-         * Information about the row
-         */
-        data class Row(private val inventory: Inventory, val index: Int) {
-            /**
-             * Get the slot by also specifying the column
-             * @param columnIndex The index of the column
-             * @return The specified slot
-             */
-            fun column(columnIndex: Int): Slot {
-                return column(Column(inventory, columnIndex))
-            }
-
-            /**
-             * Get the slot with an existing column instance
-             * @param column The column
-             * @return The specified slot
-             */
-            fun column(column: Column): Slot {
-                return Slot(inventory, this, column)
-            }
-        }
-
-        /**
-         * The index of the slot currently in the inventory
-         */
-        val index = row.index * 9 + column.index
-
-        /**
-         * Get or set this field to modify the inventory
-         */
-        var item: ItemStack?
-            get() = inventory.getItem(index)
-            set(value) {
-                inventory.setItem(index, value)
-            }
-    }
-
-    /**
-     * Get the row
-     * @param rowIndex The index of the row
-     * @return The row
-     */
-    fun row(rowIndex: Int): Slot.Row {
-        if (rowIndex !in 0..5) {
-            throw Exception("This is an index starting from 0. It also should not be greater than 5")
-        }
-        return if (rowIndex * 9 <= inventory.size) {
-            Slot.Row(inventory, rowIndex)
-        } else {
-            throw Exception("Row out of Inventory bounds")
-        }
-    }
-
-    /**
-     * Get the column
-     * @param columnIndex The index of the column
-     * @return The column
-     */
-    fun column(columnIndex: Int): Slot.Column {
-        if (columnIndex !in 0..8) {
-            throw Exception("This is an index starting from 0. It also should not be greater than 8")
-        }
-        return Slot.Column(inventory, columnIndex)
-    }
+class GInventory private constructor(val inventory: Inventory, val rows: Int) {
 
     val onClick = ArrayList<(InventoryClickEvent)->Unit>()
     val onOpen = ArrayList<(InventoryOpenEvent)->Unit>()
     val onClose = ArrayList<(InventoryCloseEvent)->Unit>()
-
+    private val allSlots = ArrayList<Slot>()
     init {
+        for (row in 0 until rows) {
+            for (column in 0 until 9) {
+                allSlots.add(Slot(Row(row), Column(column)))
+            }
+        }
         EventRegistry.register<InventoryClickEvent> { e ->
+            GBukkit.server.pluginManager.callEvent(GInventoryClickEvent(e, Slot.fromIndex(e.slot), this))
             if (e.inventory == inventory) {
                 onClick.forEach {
                     it.invoke(e)
@@ -163,6 +53,101 @@ class GInventory private constructor(val inventory: Inventory) {
                 }
             }
         }
+    }
+
+    /**
+     * This class is called when you exceeded the max limit of a field
+     */
+    class LimitExceedException(msg: String) : Exception(msg)
+    companion object {
+        /**
+         * Creating a new inventory
+         * @param name The title of the inventory
+         * @param rows The number of rows. Range from 1 to 6
+         * @return A created GInventory instance
+         */
+        @JvmStatic
+        fun create(name: String, rows: Int): GInventory {
+            if (rows !in 1..6) {
+                throw LimitExceedException("Number of rows should be between 1 and 6")
+            }
+            val newInventory = Bukkit.createInventory(null, rows * 9, name)
+            return GInventory(newInventory, rows)
+        }
+    }
+
+    /**
+     * Get the row
+     * @param rowIndex The index of the row
+     * @return The row
+     */
+    fun row(rowIndex: Int): Row {
+        if (rowIndex !in 0..5) {
+            throw Exception("This is an index starting from 0. It also should not be greater than 5")
+        }
+        return if (rowIndex * 9 <= inventory.size) {
+            Row(rowIndex)
+        } else {
+            throw Exception("Row out of Inventory bounds")
+        }
+    }
+    private val occupiedFields = ArrayList<Slot>()
+    fun addButton(item: ItemStack, location: Slot): InventoryButton {
+        return InventoryButton(item, this, location).also {
+            occupiedFields.add(location)
+            EventRegistry.register<GInventoryClickEvent> { e ->
+                if (e.inventory == this) {
+                    if (e.clickedSlot == location) {
+                        e.isCancelled = true
+                    }
+                }
+            }
+        }
+    }
+
+    fun setBackground(item: ItemStack) {
+        allSlots.filter { !occupiedFields.contains(it) }.forEach {
+            setItemAt(it, item)
+            EventRegistry.register<GInventoryClickEvent> { e ->
+                if (e.inventory == this) {
+                    if (e.clickedSlot == it) {
+                        e.isCancelled = true
+                    }
+                }
+            }
+        }
+    }
+
+    fun addInputField(location: Slot): InventoryInput {
+        return InventoryInput(this, location).also {
+            occupiedFields.add(location)
+        }
+    }
+
+    /**
+     * Get the column
+     * @param columnIndex The index of the column
+     * @return The column
+     */
+    fun column(columnIndex: Int): Column {
+        if (columnIndex !in 0..8) {
+            throw Exception("This is an index starting from 0. It also should not be greater than 8")
+        }
+        return Column(columnIndex)
+    }
+
+    fun getItemAt(slot: Slot): ItemStack? {
+        return inventory.getItem(slot.bukkitIndex)
+    }
+    fun setItemAt(slot: Slot, item: ItemStack?) {
+        if (item == null) {
+            removeItemAt(slot)
+        } else {
+            inventory.setItem(slot.bukkitIndex, item)
+        }
+    }
+    fun removeItemAt(slot: Slot) {
+        inventory.removeItem(getItemAt(slot))
     }
 
     /**
