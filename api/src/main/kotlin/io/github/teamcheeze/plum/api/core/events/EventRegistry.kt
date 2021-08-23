@@ -27,5 +27,19 @@ class EventRegistry {
                 e.printStackTrace()
             }
         }
+        @JvmStatic
+        fun <T: Event> register(clazz: Class<T>, action: (T) -> Unit) {
+            val listenerWrapper = RegisteredListenerWrapper(action)
+            try {
+                val handlers = clazz.methods.find { it.name == "getHandlerList" }!!.apply { isAccessible = true }.invoke(null) as HandlerList
+                handlers.register(listenerWrapper)
+            }
+            catch (e: NullPointerException) {
+                e.printStackTrace()
+            }
+            catch (e: ClassCastException) {
+                e.printStackTrace()
+            }
+        }
     }
 }
