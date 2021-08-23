@@ -6,57 +6,38 @@ plugins {
 }
 
 group = "io.github.teamcheeze"
-version = "0.0.10"
+version = "0.0.11"
 
 repositories {
     mavenCentral()
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://libraries.minecraft.net/")
 }
-subprojects {
-    apply(plugin = "org.jetbrains.dokka")
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        compileOnly(kotlin("stdlib"))
-        compileOnly("io.github.teamcheeze:jaw:1.0.2")
-    }
-    tasks {
-        register<Jar>("javadocJar") {
-            dependsOn("dokkaHtml")
-            from("$buildDir/dokka/html/")
-            include("**")
-        }
-    }
+
+dependencies {
+    compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
+    compileOnly("com.mojang:authlib:1.5.21")
 }
+
 tasks {
     jar {
-        subprojects.onEach { from(it.sourceSets["main"].output) }.forEach {
-            from(it.sourceSets["main"].allSource)
-        }
+        from(project.sourceSets["main"].output)
     }
     register<Jar>("javadocJar") {
         archiveClassifier.set("javadoc")
-        subprojects.forEach {
-            from((it.tasks["javadocJar"] as Jar).source)
-        }
+            dependsOn("dokkaHtml")
+            from("$buildDir/dokka/html/")
+            include("**")
     }
     register<Jar>("sourcesJar") {
         archiveClassifier.set("sources")
-        subprojects.forEach {
-            from(it.sourceSets["main"].allSource)
-            from(it.sourceSets["main"].output)
-        }
+        from(project.sourceSets["main"].allSource)
     }
-}
-
-fun isSnapshot(ver: String): Boolean {
-    return ver.matches("[\\.-](beta|snapshot|Beta|SNAPSHOT)$".toRegex())
 }
 
 publishing {
     publications {
-        create<MavenPublication>("publication") {
+        create<MavenPublication>("plumPublication") {
             artifactId = "plum"
             from(components["java"])
             artifact(tasks["javadocJar"])
@@ -73,11 +54,10 @@ publishing {
                     }.onFailure {
                         print("Credentials error")
                     }
-                    url = if (isSnapshot(version)) {
-                        uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-                    } else {
-                        uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                    }
+                    url = if (version.endsWith("-SNAPSHOT"))
+                            uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                        else
+                            uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                 }
             }
             pom {
@@ -108,6 +88,6 @@ publishing {
 }
 signing {
     isRequired = true
-    sign(tasks["javadocJar"], tasks["sourcesJar"])
-    sign(publishing.publications["publication"])
+    sign(tasks["javadocJar"], tasks["sourcesJar"], tasks.jar.get())
+    sign(publishing.publications["plumPublication"])
 }

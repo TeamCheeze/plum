@@ -52,7 +52,7 @@ CommandRegistry.register("plum") {
 Help me by contributing on this project!
 
 ### Notice
-- I am currently doing my best on making this api java-compatible. Contribute to help me!
+- I am currently doing my best on making this io.teamcheeze.plum.api java-compatible. Contribute to help me!
 ```kotlin
 repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
@@ -60,7 +60,7 @@ repositories {
 }
 dependencies {
     compileOnly("io.github.teamcheeze:plum:0.0.5")
-    compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-io.teamcheeze.plum.api:1.17.1-R0.1-SNAPSHOT")
     implementation("io.github.dolphin2410:jaw:1.0.2")
     implementation(kotlin("stdlib"))
 }

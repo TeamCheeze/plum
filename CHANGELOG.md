@@ -79,4 +79,4 @@ Almost the same as Brigadier by Mojang, but more human-readable.
 ## 0.0.1
 ### Notes
 - This project has been moved from [dolphin2410](https://github.com/dolphin2410) 's repository to TeamCheeze and renamed from gemmyLib to plum.
-- This project has been uploaded to the mavenCentral repository with `io.github.dolphin2410:plum-api:0.0.1`
+- This project has been uploaded to the mavenCentral repository with `io.github.dolphin2410:plum-io.teamcheeze.plum.api:0.0.1`
