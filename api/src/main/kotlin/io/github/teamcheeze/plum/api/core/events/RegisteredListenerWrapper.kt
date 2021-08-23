@@ -13,7 +13,7 @@ import org.bukkit.plugin.RegisteredListener
  * @author dolphin2410
  * @param action The action that will be fired with the event
  */
-class RegisteredListenerWrapper<T: Event>(action: T.()->Unit): RegisteredListener(object: Listener{},
+class RegisteredListenerWrapper<T: Event>(val clazz: Class<T>, action: T.()->Unit): RegisteredListener(object: Listener{},
     EventExecutorWrapper(action), EventPriority.NORMAL, PluginLoader.plugin, false) {
     /**
      * A class that will be called when trying to execute from an non wrapped EventExecutor
