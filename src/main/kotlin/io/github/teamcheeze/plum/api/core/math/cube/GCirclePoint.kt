@@ -5,6 +5,6 @@ import org.bukkit.Location
 
 data class GCirclePoint(val location: GVector, val element: Movable<*>) {
     fun move(vector: GVector, actionEachTick: (Location)->Unit = {}) {
-        element.move(vector.bukkitVector, actionEachTick)
+        element.move(vector.bukkitVector, 1.0, actionEachTick)
     }
 }

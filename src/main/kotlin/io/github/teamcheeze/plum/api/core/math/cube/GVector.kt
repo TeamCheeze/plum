@@ -1,6 +1,7 @@
 package io.github.teamcheeze.plum.api.core.math.cube
 
-import io.github.dolphin2410.jaw.reflection.FieldAccessor
+import io.github.teamcheeze.jaw.reflection.FieldAccessor
+import io.github.teamcheeze.plum.api.util.core.Cloneable
 import org.bukkit.util.Vector
 
 data class GVector(val x: Double, val y: Double, val z: Double): Cloneable<GVector> {

@@ -1,6 +1,6 @@
 package io.github.teamcheeze.plum.api.util.core
 
-import io.github.dolphin2410.jaw.reflection.FieldAccessor
+import io.github.teamcheeze.jaw.reflection.FieldAccessor
 
 class TypedGroup<T, E : Enum<E>, A> private constructor(
     val identifier: T,

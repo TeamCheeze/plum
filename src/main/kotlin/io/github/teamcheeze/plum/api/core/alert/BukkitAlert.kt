@@ -1,8 +1,9 @@
 package io.github.teamcheeze.plum.api.core.alert
 
-import io.github.dolphin2410.jaw.util.async.Async
+import io.github.teamcheeze.jaw.util.async.Async
 import io.github.teamcheeze.plum.api.core.debug.BukkitDebug
 import io.github.teamcheeze.plum.api.core.minecraft.SpigotUtil
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
@@ -36,7 +37,7 @@ class BukkitAlert {
         @JvmStatic
         fun warn(msg: String){
             Async.execute {
-                Bukkit.broadcastMessage(text(BCC.WARN, msg))
+                Bukkit.broadcast(Component.text(text(BCC.WARN, msg)))
             }
         }
 
@@ -61,7 +62,7 @@ class BukkitAlert {
         @JvmStatic
         fun debug(msg: String) {
             Async.execute {
-                Bukkit.broadcastMessage(text(BCC.DEBUG))
+                Bukkit.broadcast(Component.text(text(BCC.DEBUG, msg)))
             }
         }
 
@@ -79,7 +80,7 @@ class BukkitAlert {
         @JvmStatic
         fun danger(msg: String){
             Async.execute {
-                Bukkit.broadcastMessage("${ChatColor.RED}$msg")
+                Bukkit.broadcast(Component.text(text(BCC.DANGER, msg)))
             }
         }
 
@@ -90,7 +91,7 @@ class BukkitAlert {
         @JvmStatic
         fun success(msg: String){
             Async.execute {
-                Bukkit.broadcastMessage("${ChatColor.GREEN}$msg")
+                Bukkit.broadcast(Component.text(text(BCC.SUCCESS, msg)))
             }
         }
 
@@ -101,7 +102,7 @@ class BukkitAlert {
         @JvmStatic
         fun info(msg: String){
             Async.execute {
-                Bukkit.broadcastMessage("${ChatColor.LIGHT_PURPLE}$msg")
+                Bukkit.broadcast(Component.text(text(BCC.INFO, msg)))
             }
         }
     }

@@ -1,5 +1,5 @@
 package io.github.teamcheeze.plum.api.util.core
 
-interface Serializable {
+interface Serializable: java.io.Serializable {
     fun serialize(): String
 }

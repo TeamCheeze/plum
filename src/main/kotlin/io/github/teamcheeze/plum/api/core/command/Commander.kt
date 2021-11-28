@@ -1,6 +1,6 @@
 package io.github.teamcheeze.plum.api.core.command
 
-import io.github.dolphin2410.jaw.reflection.FieldAccessor
+import io.github.teamcheeze.jaw.reflection.FieldAccessor
 import io.github.teamcheeze.plum.api.core.minecraft.MinecraftUtil
 import io.github.teamcheeze.plum.api.util.collection.matches
 import io.github.teamcheeze.plum.api.util.core.Property

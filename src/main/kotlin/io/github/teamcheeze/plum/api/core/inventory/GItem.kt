@@ -2,6 +2,8 @@ package io.github.teamcheeze.plum.api.core.inventory
 
 import io.github.teamcheeze.plum.api.core.enchants.GEnchant
 import io.github.teamcheeze.plum.api.util.core.Attributable
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import org.bukkit.Material
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -24,8 +26,8 @@ data class GItem(val item: ItemStack): Attributable<String, Any> {
         fun create(material: Material, name: String = material.name, enchantment: List<GEnchant> = listOf(), lore: List<String> = listOf(), flag: List<ItemFlag> = listOf()): GItem {
             return GItem(ItemStack(material).apply {
                 val newItemMeta = itemMeta
-                newItemMeta?.setDisplayName(name)
-                newItemMeta?.lore = lore
+                newItemMeta.displayName(text(name))
+                newItemMeta.lore(lore.map { text(it) })
                 newItemMeta?.addItemFlags(*flag.toTypedArray())
                 enchantment.forEach {
                     newItemMeta?.addEnchant(it.enchantment, it.level, it.overrideLevel)

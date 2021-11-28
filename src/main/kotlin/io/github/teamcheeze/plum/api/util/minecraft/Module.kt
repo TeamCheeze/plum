@@ -1,6 +1,6 @@
 package io.github.teamcheeze.plum.api.util.minecraft
 
-import io.github.dolphin2410.jaw.reflection.ConstructorAccessor
+import io.github.teamcheeze.jaw.reflection.ConstructorAccessor
 import io.github.teamcheeze.plum.api.config.LibConfig
 
 /**

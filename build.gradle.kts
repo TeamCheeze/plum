@@ -1,35 +1,37 @@
 plugins {
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.5.31"
     id("org.jetbrains.dokka") version "1.5.0"
     `maven-publish`
     signing
 }
 
 group = "io.github.teamcheeze"
-version = "0.0.11"
+version = "0.0.13"
 
 repositories {
     mavenCentral()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://libraries.minecraft.net/")
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.21")
-    compileOnly("io.github.teamcheeze:jaw:1.0.2")
+    compileOnly("io.github.teamcheeze:jaw:1.0.4")
 }
 
 tasks {
     jar {
         from(project.sourceSets["main"].output)
     }
+
     register<Jar>("javadocJar") {
         archiveClassifier.set("javadoc")
             dependsOn("dokkaHtml")
             from("$buildDir/dokka/html/")
             include("**")
     }
+
     register<Jar>("sourcesJar") {
         archiveClassifier.set("sources")
         from(project.sourceSets["main"].allSource)

@@ -1,8 +1,8 @@
 package io.github.teamcheeze.plum.api.core.minecraft
 
-import io.github.dolphin2410.jaw.reflection.ConstructorAccessor
-import io.github.dolphin2410.jaw.reflection.FieldAccessor
-import io.github.dolphin2410.jaw.reflection.MethodAccessor
+import io.github.teamcheeze.jaw.reflection.ConstructorAccessor
+import io.github.teamcheeze.jaw.reflection.FieldAccessor
+import io.github.teamcheeze.jaw.reflection.MethodAccessor
 import io.github.teamcheeze.plum.api.core.bukkit.GBukkit
 import io.github.teamcheeze.plum.api.core.minecraft.network.Packet
 import io.github.teamcheeze.plum.api.core.minecraft.network.PacketImpl

@@ -1,3 +1,15 @@
+## 0.0.13
+### Updated
+#### Movable
+The plugin developer can now apply speed to moving
+## 0.0.12
+### Updated
+#### Movable
+`Movable#move` and `Movable.moveTo` now returns a `CompletableFuture<Location>` which is completed once the entity has reached the desired target location
+#### PAPER SUPPORT
+Plum now supports PaperAPI and AdventureAPI
+## 0.0.10 - 0.0.11
+***Minor bug fixes***
 ## 0.0.9
 ### Moved
 - GEnchant to the enchants package

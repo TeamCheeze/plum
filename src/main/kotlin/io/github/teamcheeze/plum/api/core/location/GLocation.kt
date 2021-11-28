@@ -1,6 +1,7 @@
 package io.github.teamcheeze.plum.api.core.location
 
 import io.github.teamcheeze.plum.api.util.core.Deserializable
+import io.github.teamcheeze.plum.api.util.core.Serializable
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World

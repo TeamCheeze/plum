@@ -147,7 +147,7 @@ class GInventory private constructor(val inventory: Inventory, val rows: Int) {
         }
     }
     fun removeItemAt(slot: Slot) {
-        inventory.removeItem(getItemAt(slot))
+        getItemAt(slot)?.let { inventory.removeItem(it) }
     }
 
     /**

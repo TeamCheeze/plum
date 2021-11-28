@@ -1,6 +1,6 @@
 package io.github.teamcheeze.plum.api.core.events
 
-import io.github.dolphin2410.jaw.reflection.FieldAccessor
+import io.github.teamcheeze.jaw.reflection.FieldAccessor
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener

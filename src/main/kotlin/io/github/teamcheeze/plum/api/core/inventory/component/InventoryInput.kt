@@ -30,7 +30,7 @@ data class InventoryInput(val inventory: GInventory, val slot: Slot): InventoryC
         }
         set(value) {
             if (value == null && this.value != null) {
-                inventory.inventory.removeItem(this.value)
+                inventory.inventory.removeItem(this.value!!)
             }
         }
 }
